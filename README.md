@@ -2,8 +2,8 @@
 
 This provides a sample Azure Kubernetes Service architecture to deploy a TensorFlow model.
 
-![Grafana](grafana.png)
-![Architecture](architecture.png)
+![Grafana](docs/images/grafana.png)
+![Architecture](docs/images/architecture.png)
 
 
 ## Getting Started (Provision Cloud Infrastructure) 
