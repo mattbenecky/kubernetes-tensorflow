@@ -1,6 +1,6 @@
 #!/bin/sh
 
-az group delete -n "rg-tensorflow-Dev" --force-deletion-types Microsoft.Compute/virtualMachineScaleSets
+az group delete -n "rg-tensorflow-Dev" --force-deletion-types Microsoft.Compute/virtualMachineScaleSets --yes -y
 
 # Delete Azure AD Groups
 az ad group delete -g "AKS Cluster Admin"
