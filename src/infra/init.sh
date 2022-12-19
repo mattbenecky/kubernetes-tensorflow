@@ -1,8 +1,7 @@
 #!/bin/sh
 #register Microsoft.ManagedIdentity
 
-echo "Enter GitHub username: "
-read GITHUB_USER
+read -p "Enter GitHub username: " GITHUB_USER
 
 # Register EnableAPIServerVnetIntegrationPreview feature flag on subscription
 az feature register --namespace "Microsoft.ContainerService" --name "EnableAPIServerVnetIntegrationPreview"
