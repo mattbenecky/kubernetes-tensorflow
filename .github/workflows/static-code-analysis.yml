@@ -1,0 +1,29 @@
+name: 'Static Code Analysis'
+
+on:
+
+  workflow_call:
+
+jobs:
+
+  bicep-linter:
+    name: 'Bicep Linter'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v3
+
+      # Display agent directory (GITHUB_WORKSPACE)
+      - shell: bash
+        run: |
+          echo "HOME = " ${HOME}
+          ls -a ${HOME}
+          echo "GITHUB_WORKSPACE = " ${GITHUB_WORKSPACE}
+          ls -a ${GITHUB_WORKSPACE}
+        name: 'Display Runner Directory'
+
+      # Test Bicep files for code errors
+      - shell: bash
+        run: |
+          find ${GITHUB_WORKSPACE} -name *.bicep -exec az bicep build --file {} --stdout \;
+        name: 'Bicep linter'
