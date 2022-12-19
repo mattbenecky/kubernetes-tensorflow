@@ -14,7 +14,7 @@ This provides a sample Azure Kubernetes Service architecture to deploy a TensorF
 
 ```COPY``` the following line 👇
 ```
-curl -LJO https://raw.githubusercontent.com/mattbenecky/kubernetes-tensorflow-draft/main/src/infra/init.sh && chmod 755 init.sh && ./init.sh
+curl -LJO https://raw.githubusercontent.com/mattbenecky/kubernetes-tensorflow/main/src/infra/init.sh && chmod 755 init.sh && ./init.sh
 ```
 ```PASTE``` in Cloud Shell & press ```ENTER```
 
@@ -28,7 +28,7 @@ curl -LJO https://raw.githubusercontent.com/mattbenecky/kubernetes-tensorflow-dr
 
 3. Deploy to Azure 
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://raw.githubusercontent.com/mattbenecky/kubernetes-tensorflow-draft/main/.github/workflows/cd.yml?token=GHSAT0AAAAAABXMFIJXSWRVAR6JMWTEAM6MY5AGBPQ)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://raw.githubusercontent.com/mattbenecky/kubernetes-tensorflow/main/.github/workflows/cd.yml)
 
 ## Running the App (Deploy TensorFlow Model & Monitor AKS Cluster)
 
@@ -42,6 +42,6 @@ curl -LJO https://raw.githubusercontent.com/mattbenecky/kubernetes-tensorflow-dr
 
 ```COPY``` the following line 👇
 ```
-curl -LJO https://raw.githubusercontent.com/mattbenecky/kubernetes-tensorflow-draft/main/src/infra/cleanup.sh && chmod 755 cleanup.sh && ./cleanup.sh
+curl -LJO https://raw.githubusercontent.com/mattbenecky/kubernetes-tensorflow/main/src/infra/cleanup.sh && chmod 755 cleanup.sh && ./cleanup.sh
 ```
 ```PASTE``` in Cloud Shell & press ```ENTER```
