@@ -1,0 +1,43 @@
+{ 
+  "kubernetesVersion": "1.25.2",
+  "sku": {
+    "name": "Basic",
+    "tier": "Free"
+  },
+  "identity": {
+    "type": "UserAssigned"
+  },
+  "aadProfile": {
+    "enableAzureRBAC": true,
+    "managed": true
+  },
+  "networkProfile": {
+    "loadBalancerSku": "standard",
+    "networkPlugin": "azure"
+  },
+  "agentPoolProfiles": [
+    {
+      "count": 1,
+      "enableAutoScaling": true,
+      "enableNodePublicIP": false,
+      "maxCount": 2,
+      "maxPods": 30,
+      "minCount": 1,
+      "mode": "System",
+      "name": "systempool",
+      "orchestratorVersion": "1.25.2",
+      "osType": "Linux",
+      "type": "VirtualMachineScaleSets",
+      "vmSize": "Standard_B2s"
+      
+    }
+  ],
+  "addOnProfiles": {
+    "azurePolicy": {
+      "enabled": true
+    },
+    "osmagent": {
+      "enabled": true
+    }  
+  }
+}
