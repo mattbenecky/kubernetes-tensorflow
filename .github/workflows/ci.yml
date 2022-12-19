@@ -1,0 +1,25 @@
+name: 'Continuous Integration'
+
+# Automatically trigger workflow on push or pull request
+on:
+  
+  # Triggers workflow when you push a commit or tag to the specified branches
+  push:
+    branches:
+      - 'main'
+      - 'users/**'
+      - 'releases/**'
+
+  pull_request:
+    branches:
+      - 'main'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+
+  static-code-analysis:
+    name: 'Static Code Analysis'
+    uses: ./.github/workflows/static-code-analysis.yml
