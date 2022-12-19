@@ -1,0 +1,54 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "env": {
+      "value": "Dev"
+      },
+      "vnetDMZAddressSpace": {
+          "value": {
+              "addressPrefixes": [
+                  "10.0.0.0/16"
+              ]
+          }                  
+      },
+      "vnetAKSAddressSpace": {
+          "value": {
+              "addressPrefixes": [
+                  "10.1.0.0/16"
+              ]
+          }                  
+      },
+      "vnetDMZSubnets":{
+          "value":[
+              {
+                  "name": "default",
+                  "addressPrefix": "10.0.0.0/24",
+                  "privateEndpointNetworkPolicies": "Disabled"
+              }
+          ]                      
+      }, 
+      "vnetAKSSubnets":{
+          "value":[
+              {
+                  "name": "apiserver",
+                  "addressPrefix": "10.1.0.0/28",
+                  "privateEndpointNetworkPolicies": "Disabled",
+                  "privateLinkServiceNetworkPolicies": "Enabled"
+              },
+              {
+                "name": "privatelink",
+                "addressPrefix": "10.1.1.0/24",
+                "privateEndpointNetworkPolicies": "Disabled",
+                "privateLinkServiceNetworkPolicies": "Enabled"
+              },
+              {
+                "name": "cluster",
+                "addressPrefix": "10.1.2.0/24",
+                "privateEndpointNetworkPolicies": "Disabled",
+                "privateLinkServiceNetworkPolicies": "Enabled"
+              }
+          ]                      
+      }        
+  }
+}

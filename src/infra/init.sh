@@ -71,7 +71,7 @@ az role assignment create \
 #  --assignee $SCRIPT_PRINCIPAL_ID \ Replication Latency Error -> Use assignee-object-id
 
 echo -e "\nClick Settings -> Environments"
-echo -e "\nNew Environment = ""Dev"""
+echo -e "\n+ New Environment: Dev"
 echo -e "\nAdd the following GitHub Secrets:"
 echo "════════════════════════════════════════════════════════════════════════"
 echo "Name: CLIENT_ID         Value:" $DEPLOYMENT_APP_ID
