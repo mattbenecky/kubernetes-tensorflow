@@ -1,0 +1,83 @@
+# Pre-Flight Validation workflow validates IaC pre-deployment for continuous integration
+name: 'Pre-Flight Validation'
+
+on:
+
+  # Automatically trigger workflow when called
+  workflow_call:
+    inputs:
+      name:
+        description: 'Name: '
+        required: false
+        default: 'tensorflow'
+        type: string
+      location:
+        description: 'Location: '
+        required: false
+        default: 'eastus2'
+        type: string
+  
+  # Manually trigger workflow 
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Name: '
+        required: true
+        default: 'tensorflow'
+      location:
+        description: 'Location: '
+        required: true
+        default: 'eastus2'
+
+permissions:
+      id-token: write
+      contents: read
+
+
+jobs:
+
+  pre-flight-validation:
+    environment: Dev
+    name: 'Pre-Flight Validation'
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v3
+
+      # Authenticate with Azure 
+      - name: 'Azure Authentication'
+        uses: Azure/login@v1
+        with:
+          # Authorization via OIDC Federated Credential role-based access control
+          allow-no-subscriptions: true
+          client-id: ${{ secrets.CLIENT_ID }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+
+      # Validate whether the Bicep template is valid at the specified scope
+      - name: 'Scope Validation with Azure CLI'
+        uses: azure/CLI@v1
+        with:
+          # Execute scope validation using Azure CLI within context of Deployment Principal authorization
+          inlineScript: |
+            az deployment sub validate \
+              --location ${{ inputs.location }} \
+              --name '${{ inputs.name }}-deployment-'$(date +"%Y%m%d-%Hh%Mm%Ss") \
+              --template-file 'src/infra/main.bicep' \
+              --parameters name=${{ inputs.name }} adminGroupID=${{ secrets.ADMIN_GROUP_ID }} grafanaGroupID=${{ secrets.GRAFANA_GROUP_ID }} \
+              --parameters 'src/infra/parameters/main.parameters.json'
+
+      # Validate whether the Bicep template will be accepted by Azure Resource Manager and preview resource changes
+      - name: 'Pre-flight Validation with Azure CLI'
+        uses: azure/CLI@v1
+        with:
+          # Execute what-if operation using Azure CLI within context of Deployment Principal authorization
+          inlineScript: |
+            az deployment sub what-if \
+              --location ${{ inputs.location }} \
+              --name '${{ inputs.name }}-deployment-'$(date +"%d-%b-%Y-%Hh-%Mm-%Ss") \
+              --template-file 'src/infra/main.bicep' \
+              --parameters name=${{ inputs.name }} adminGroupID=${{ secrets.ADMIN_GROUP_ID }} grafanaGroupID=${{ secrets.GRAFANA_GROUP_ID }} \
+              --parameters 'src/infra/parameters/main.parameters.json' 
