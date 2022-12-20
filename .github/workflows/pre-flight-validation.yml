@@ -14,7 +14,7 @@ on:
       location:
         description: 'Location: '
         required: false
-        default: 'eastus2'
+        default: 'eastus'
         type: string
   
   # Manually trigger workflow 
@@ -27,7 +27,7 @@ on:
       location:
         description: 'Location: '
         required: true
-        default: 'eastus2'
+        default: 'eastus'
 
 permissions:
       id-token: write
