@@ -1,0 +1,51 @@
+name: 'Deploy to Azure'
+
+on:
+
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Name: '
+        required: true
+        default: 'tensorflow'
+      location:
+        description: 'Location: '
+        required: true
+        default: 'eastus'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+
+  deploy:
+    environment: Dev
+    name: 'Deploy'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+      
+      # Authenticate with Azure via OIDC Federated Credential
+      - name: 'Azure Authentication'
+        uses: Azure/login@v1
+        with:
+          allow-no-subscriptions: true
+          client-id: ${{ secrets.CLIENT_ID }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+
+      # Deploy Bicep template
+      - name: 'Create Deployment with Azure CLI'
+        uses: azure/CLI@v1
+        with:
+          # Create subscription scope deployment using Azure CLI within context of federated credential authorization
+          inlineScript: |
+            az deployment sub create \
+              --location ${{ inputs.location }} \
+              --name '${{ inputs.name }}-'$(date +"%Y%m%d%H%M%S") \
+              --template-file 'src/infra/main.bicep' \
+              --parameters name=${{ inputs.name }} adminGroupID=${{ secrets.ADMIN_GROUP_ID }} grafanaGroupID=${{ secrets.GRAFANA_GROUP_ID }} \
+              --parameters 'src/infra/parameters/main.parameters.json' 
