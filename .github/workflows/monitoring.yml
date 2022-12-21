@@ -1,0 +1,53 @@
+name: 'Enable Prometheus Metrics for AKS Cluster'
+
+on:
+
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Name: '
+        required: true
+        default: 'tensorflow'
+      location:
+        description: 'Location: '
+        required: true
+        default: 'eastus'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+
+  deploy:
+    environment: Dev
+    name: 'Deploy'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+      
+      # Authenticate with Azure 
+      - name: 'Azure Authentication'
+        uses: Azure/login@v1
+        with:
+          allow-no-subscriptions: true
+          client-id: ${{ secrets.CLIENT_ID }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+
+      # Enable Prometheus Metrics Collection for AKS Cluster using Azure CLI
+      - name: 'Enable Prometheus Metrics Collection with Azure CLI'
+        uses: azure/CLI@v1
+        with:
+          # Register Prometheus Addon Feature and Configure AKS Data Source
+          inlineScript: |
+            aksName="aks-${{ inputs.name }}-Dev"
+            rgName="rg-${{ inputs.name }}-Dev"
+            monitorID=$(az resource show -g $rgName -n "monitor-${{ inputs.name }}-Dev" --resource-type "Microsoft.Monitor/accounts" --query "[id]" | tr -d '[]" \n')
+            grafanaID=$(az resource show -g $rgName -n "grafana-${{ inputs.name }}-Dev" --resource-type "Microsoft.Dashboard/grafana" --query "[id]" | tr -d '[]" \n' )
+            az feature register --namespace Microsoft.ContainerService --name AKS-PrometheusAddonPreview
+            az extension add --name aks-preview
+            az aks update --enable-azuremonitormetrics -n $aksName -g $rgName --azure-monitor-workspace-resource-id $monitorID --grafana-resource-id  $grafanaID
+      
