@@ -36,7 +36,7 @@ curl -LJO https://raw.githubusercontent.com/mattbenecky/kubernetes-tensorflow/ma
 
 2. Open Grafana.
 
-## Cleaning Up (Delete Cloud Resources)
+## Clean Up (Delete Cloud Resources)
 
 1. Launch [Cloud Shell](https://shell.azure.com/bash). (Open Link in New Tab)
 
