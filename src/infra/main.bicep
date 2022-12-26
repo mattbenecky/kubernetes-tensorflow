@@ -75,7 +75,6 @@ module cr 'modules/cr.bicep' = {
   // Linked Deployment Name
   name: 'ContainerRegistry'
   params: {
-    name: 'crtensorflowaks'
     location: location
   }
 }
@@ -138,7 +137,7 @@ module idAKS 'modules/id.bicep' = {
   }
 }
 
-// Virtual network link to connect AKS VNet to Container Registry Private DNS Zone
+// Virtual network link to connect Container Registry Private DNS Zone to AKS VNet
 module linkCR 'modules/link.bicep' = {
   scope: rg
   // Linked Deployment Name
@@ -150,7 +149,7 @@ module linkCR 'modules/link.bicep' = {
   }
 }
 
-// Virtual network link to connect DMZ VNet to AKS Private DNS Zone
+// Virtual network link to connect AKS Private DNS Zone to DMZ VNet
 module linkDMZ 'modules/link.bicep' = {
   scope: rg
   // Linked Deployment Name

@@ -1,5 +1,5 @@
 param location string = resourceGroup().location
-param name string
+param name string = 'cr${uniqueString(resourceGroup().id)}'
 
 resource cr 'Microsoft.ContainerRegistry/registries@2022-02-01-preview' = {
   name: name
@@ -13,3 +13,4 @@ resource cr 'Microsoft.ContainerRegistry/registries@2022-02-01-preview' = {
 }
 
 output ID string = cr.id
+output name string = cr.name
