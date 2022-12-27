@@ -14,7 +14,7 @@ This provides a sample Azure Kubernetes Service architecture to deploy a TensorF
 
 ```COPY``` the following line 👇
 ```
-curl -LJO https://raw.githubusercontent.com/mattbenecky/kubernetes-tensorflow/main/src/infra/init.sh && chmod 755 init.sh && ./init.sh
+curl -LJO https://raw.githubusercontent.com/mattbenecky/kubernetes-tensorflow/main/src/infra/setup.sh && chmod +x setup.sh && ./setup.sh
 ```
 ```PASTE``` in Cloud Shell & press ```ENTER```
 
